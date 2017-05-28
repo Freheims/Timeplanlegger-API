@@ -2,6 +2,8 @@
 from bs4 import BeautifulSoup
 from urllib.parse import quote
 import requests
+import json
+import re
 
 def getAreas(university):
     allAreas = []
@@ -12,95 +14,122 @@ def getAreas(university):
     sel = soup.find("select")
     for option in sel.find_all("option"):
         if option.has_attr("value"):
-            areaCode = option["value"]
+            areaId = option["value"]
             areaName = option.text
-            area = {"areaCode" : areaCode, "areaName" : areaName}
+            area = {"id" : areaId, "name" : areaName}
             allAreas.append(area)
-    return allAreas
+    allAreasJson = {"name" : "Areas", "data" : allAreas}
+    return allAreasJson
 
 def getBuildings(university):
     allBuildings = []
     areas = getAreas(university)
     for area in areas:
-        buildingsInArea = getBuildingsInArea(university, area["areaCode"])
+        buildingsInArea = getBuildingsInArea(university, area["areaId"])
         allBuildings += buildingsInArea
     buildingDict = {"buildings" : allBuildings}
     return buildingDict
 
-def getBuildingsInArea(university, areaCode):
+def getBuildingsInArea(university, areaId):
     buildings = []
     baseURL = getBaseURL(university)
-    url = baseURL + "?area=" + quote(areaCode, encoding="latin1")
+    url = baseURL + "?area=" + quote(areaId, encoding="latin1")
     r = requests.get(url)
     html = r.text
     soup = BeautifulSoup(html, "html.parser")
     buildingSelecter = soup.find("select", attrs={"name": "building"})
     for option in buildingSelecter.find_all("option"):
         if not option["value"] == "":
-            buildingCode = option["value"]
+            buildingId = option["value"]
             buildingName = option.text
-            rooms = getRoomsInBuilding(university, areaCode, buildingCode)
-            building = {"areaCode" : areaCode, "buildingCode" : buildingCode, "buildingName" : buildingName, "rooms" : rooms}
+            building = {"id" : buildingId, "name" : buildingName}
             buildings.append(building)
-    print("Area: " + areaCode)
-    return buildings
+    buildingsInAreaJson = {"name" : "Buildings", "data" : buildings}
+    return buildingsInAreaJson
 
-def getRoomsInBuilding(university,areaCode, buildingCode):
+def getRoomsInBuilding(university, areaId, buildingId):
     roomsInBuilding = []
     baseURL = getBaseURL(university)
-    url = baseURL + "?area=" + quote(areaCode, encoding="latin1") + "&building=" + quote(buildingCode, encoding="latin1")
+    url = baseURL + "?area=" + quote(areaId, encoding="latin1") + "&building=" + quote(buildingId, encoding="latin1")
     r = requests.get(url)
     html = r.content.decode("utf-8")
     soup = BeautifulSoup(html, "html.parser")
     roomSelecter = soup.find("select", attrs={"name": "id"})
-    for option in roomSelecter.find_all("option"):
-        if not option["value"] == "":
-            roomCode = option["value"]
-            roomName = option.text
-            equipment, av, special, imageURL = getExtraRoomInformation(university, areaCode, buildingCode, roomCode)
-            room = {"roomCode" : roomCode, "roomName" : roomName, "equipment" : equipment, "av" : av, "special": special, "imageURL" : imageURL}
-            roomsInBuilding.append(room)
-    return roomsInBuilding
+    for optGroup in roomSelecter.find_all("optgroup"):
+        typeId = optGroup["label"].strip()
+        for option in optGroup.find_all("option"):
+            if not option["value"] == "":
+                roomId = option["value"]
+                nameSize = re.split("(\(\d+\spl.\))", option.text)
+                roomName = nameSize[0].strip()
+                if len(nameSize)>1:
+                    size = re.split("(\d+)", nameSize[1])[1]
+                else:
+                    size = -1
+                room = {"id" : roomId, "name" : roomName, "typeid" : typeId, "size" : size}
+                roomsInBuilding.append(room)
+    roomsInBuildingJson = {"name" : "Rooms", "data" : roomsInBuilding}
+    return roomsInBuildingJson
 
-#Returns equipment, av, special, image
-def getExtraRoomInformation(university,areaCode, buildingCode, roomCode):
+def getRoomData(university,areaId, buildingId, roomId):
     baseURL = getBaseURL(university)
-    url = baseURL + "?area=" + areaCode + "&building=" + buildingCode + "&id=" + roomCode
+    url = baseURL + "?area=" + areaId + "&building=" + buildingId + "&id=" + roomId
     r = requests.get(url)
     html = r.text #content.decode("utf-8")
     soup = BeautifulSoup(html, "html.parser")
-    try:
-        equipment = soup.find("div", id="equip").find("span", class_=None).text
-    except:
-        equipment = "None"
-    try:
-        av = soup.find("div", id="avinfo").find("span", class_=None).tex.strip()
-    except:
-        av = "None"
-    try:
-        special = soup.find("div", id="specialities").find("span", class_=None).text.strip()
-    except:
-        special = "None"
+
+
+    someURL = soup.find("div", id="rominfo").find("a")
+    buildingName = soup.find("section", id="building").find("option", selected="selected").text.strip()
+
+    if buildingName == someURL.text.strip():
+        buildingURL = someURL["href"]
+        roomURL = "null"
+    else:
+        buildingURL = "null"
+        roomURL = someURL["href"]
+
+    buildingAcronym = buildingName[:4].strip() #Not ideal, but works for now
+
     try:
         imageURL = soup.find("div", id="rombilde").find("img")["src"].strip()
     except:
-        imageURL = "None"
-    if equipment == "":
-        equipment = "None"
-    if av == "":
-        av = "None"
-    if special == "":
-        special = "None"
-    if imageURL == "":
-       imageURL = "None"
+        imageURL = "null"
 
-    return equipment, av, special, imageURL
+    roomAcronym = soup.find("section", id="room").find("option", selected="selected").text.strip()[:4].strip()
+
+    data = {"buildingurl" : buildingURL, "buildingacronym" : buildingAcronym, "rooming_url" : imageURL, "roomacronym" : roomAcronym, "roomurl" : roomURL}
+
+    equipmentList = []
+    try:
+        equipment = re.split(",", soup.find("div", id="equip").find("span", class_=None).text)
+    except:
+        equipment = ""
+    try:
+        av = soup.find("div", id="avinfo").find("span", class_=None).tex.strip()
+    except:
+        av = ""
+    try:
+        special = soup.find("div", id="specialities").find("span", class_=None).text.strip()
+    except:
+        special = ""
+
+    for eq in equipment:
+        equipmentList.append(eq.strip())
+    if not av == "":
+        equipmentList.append(av)
+    if not special == "":
+        equipmentList.append(special)
+
+    roomDataJson = {"name" : "Roomdata", "data" : data, "equipment" : equipmentList}
+
+    return roomDataJson
 
 
-def getWeekScheduleForRoom(university, areaCode, buildingCode, roomCode, weeknumber, year):
+def getWeekScheduleForRoom(university, areaId, buildingId, roomId, weeknumber, year):
     events = []
     baseURL = getBaseURL(university)
-    url = baseURL + "?area=" + areaCode + "&building=" + buildingCode + "&id=" + roomCode + "&week=" + str(weeknumber) + "&ar=" + str(year)
+    url = baseURL + "?area=" + areaId + "&building=" + buildingId + "&id=" + roomId + "&week=" + str(weeknumber) + "&ar=" + str(year)
     r = requests.get(url)
     html = r.text
     soup = BeautifulSoup(html, "html.parser")
@@ -130,4 +159,6 @@ def getBaseURL(university):
     else:
         url = "https://tp.uio.no/" + university + "/timeplan/rom.php"
     return url
+
+print(json.dumps(getRoomData("uio","BL","BL24", "BL24V232"), sort_keys=True, indent=4))
 
