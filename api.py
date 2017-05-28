@@ -105,7 +105,7 @@ def getRoomData(university,areaId, buildingId, roomId):
 
     roomAcronym = soup.find("section", id="room").find("option", selected="selected").text.strip()[:4].strip()
 
-    data = {"buildingurl" : buildingURL, "buildingacronym" : buildingAcronym, "rooming_url" : imageURL, "roomacronym" : roomAcronym, "roomurl" : roomURL}
+    data = {"buildingurl" : buildingURL, "buildingacronym" : buildingAcronym, "roomimg_url" : imageURL, "roomacronym" : roomAcronym, "roomurl" : roomURL}
 
     equipmentList = []
     try:
