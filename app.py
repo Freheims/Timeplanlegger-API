@@ -12,11 +12,11 @@ def index():
     return "API infopage"
 
 class AreasAPI(Resource):
-    def get(self,uni):
+    def get(self, uni):
         return getAreas(uni)
 
 class BuildingsAPI(Resource):
-    def get(self, uni):
+    def get(self, uni, area):
         return getBuildingsInArea(uni, area)
 
 class RoomsAPI(Resource):
