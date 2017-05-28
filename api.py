@@ -82,18 +82,25 @@ def getRoomData(university,areaId, buildingId, roomId):
     someURL = soup.find("div", id="rominfo").find("a")
     buildingName = soup.find("section", id="building").find("option", selected="selected").text.strip()
 
-    if buildingName == someURL.text.strip():
-        buildingURL = someURL["href"]
-        roomURL = "null"
+    if someURL:
+        if buildingName == someURL.text.strip():
+            buildingURL = someURL["href"]
+            roomURL = "null"
+        else:
+            buildingURL = "null"
+            roomURL = someURL["href"]
     else:
-        buildingURL = "null"
-        roomURL = someURL["href"]
+        buildingURL = "none"
+        roomURL = "none"
 
     buildingAcronym = buildingName[:4].strip() #Not ideal, but works for now
 
     try:
         imageURL = soup.find("div", id="rombilde").find("img")["src"].strip()
     except:
+        imageURL = "null"
+
+    if imageURL == "":
         imageURL = "null"
 
     roomAcronym = soup.find("section", id="room").find("option", selected="selected").text.strip()[:4].strip()
@@ -160,5 +167,4 @@ def getBaseURL(university):
         url = "https://tp.uio.no/" + university + "/timeplan/rom.php"
     return url
 
-print(json.dumps(getRoomData("uio","BL","BL24", "BL24V232"), sort_keys=True, indent=4))
 
