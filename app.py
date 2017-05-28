@@ -1,5 +1,5 @@
 #!flask/bin/python3
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 from flask.ext.restful import Api, Resource
 from api import *
 import json
@@ -9,7 +9,7 @@ webapi = Api(app)
 
 @app.route('/')
 def index():
-    return "API infopage"
+    return render_template('index.html')
 
 class AreasAPI(Resource):
     def get(self, uni):
