@@ -1,7 +1,7 @@
 #!flask/bin/python3
 from flask import Flask, jsonify
 from flask.ext.restful import Api, Resource
-import api
+from api import *
 import json
 
 app = Flask(__name__)
