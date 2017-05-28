@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Timeplanlegger API</title>
+	</head>
+	<body>
+		<h1>Endpoints</h1>
+		<b>Areas</b></br>
+		<p>/api/areas/&lt;university&gt;</p>
+		<pre>
+		<code>
+GET http://tp.freheims.xyz/api/areas/uio/
+			
+{
+    "name": "Areas",
+    "data": [
+        {
+            "id": "AH",
+            "name": "Ahus"
+        },
+        {
+            "id": "AS",
+            "name": "Aker sykehus"
+        },
+        {
+            "id": "BL",
+            "name": "Blindern"
+        },
+		...
+    ]
+}
+		</code>
+		</pre>
+		<b>Buildings in area</b></br>
+		<p>/api/buildings/&lt;university&gt;/&lt;areaID&gt;</p></br>
+		<pre>
+		<code>
+GET http://tp.freheims.xyz/api/buildings/uio/AH
+{
+    "name": "Buildings",
+    "data": [
+        {
+            "id": "AHB1",
+            "name": "Ahus B1"
+        },
+        {
+            "id": "AHB2",
+            "name": "Ahus B2"
+        },
+        {
+            "id": "AHB3",
+            "name": "Ahus B3"
+        },
+		...
+    ]
+}
+		</code>
+		</pre>
+		<b>Rooms in building</b></br>
+		<p>/api/buildings/&lt;university&gt;/&lt;areaID&gt;/&lt;buildingID&gt;</p></br>
+		<pre>
+		<code>
+GET http://tp.freheims.xyz/api/rooms/uio/AH/
+{
+    "name": "Rooms",
+    "data": [
+        {
+            "id": "AHB102.072",
+            "size": "14",
+            "name": "Grupperom B102.072",
+            "typeid": "Seminarrom"
+        },
+        {
+            "id": "AHB104.004",
+            "size": "30",
+            "name": "Grupperom B104.004",
+            "typeid": "Seminarrom"
+        },
+        {
+            "id": "AHB104.048",
+            "size": "1",
+            "name": "Ekspedisjon patologisk-anatomisk avdeling",
+            "typeid": "Oppmøtested"
+        }
+    ]
+}
+		</code>
+		</pre>
+		<b>Information about room</b></br>
+		<p>/api/buildings/&lt;university&gt;/&lt;areaID&gt;/&lt;buildingID&gt;/&lt;roomID&gt;</p></br>
+		<pre>
+		<code>
+GET http://tp.freheims.xyz/api/rooms/uio/AH/AHB1/AHB102.072
+{
+    "name": "Roomdata",
+    "data": {
+        "buildingurl": "https://goo.gl/maps/oU7Y4",
+        "roomurl": "null",
+        "roomacronym": "Grup",
+        "roomimg_url": "null",
+        "buildingacronym": "Ahus"
+    },
+    "equipment": [
+        "Fast PC",
+        "Kritt-tavle",
+        "Overhead-projektor",
+        "Videoprojektor",
+        "Whiteboard",
+        "Bruk må avklares med romeier før reservasjon. Kontakt rombooking (rombooking@ahus.uio.no)"
+    ]
+}
+		</code>
+		</pre>
+
+	</body>
+</html>
