@@ -1,4 +1,5 @@
 *.swp
 *.json
 flask/
+content/
 __pycache__/
