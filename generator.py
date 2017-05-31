@@ -2,7 +2,7 @@ import os
 from api import *
 from urllib.parse import unquote
 
-universities = ["uit"]
+universities = ["uio", "uit", "ntnu"]
 
 for uni in universities:
     filePrefix = "content/" + uni + "/"
