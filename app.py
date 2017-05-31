@@ -48,6 +48,6 @@ webapi.add_resource(ScheduleAPI, '/api/schedule/<string:uni>/<string:area>/<stri
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
 
 
