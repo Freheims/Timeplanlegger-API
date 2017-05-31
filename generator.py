@@ -1,7 +1,8 @@
 import os
 from api import *
+from urllib.parse import unquote
 
-universities = ["uio", "uit", "ntnu"]
+universities = ["uit"]
 
 for uni in universities:
     filePrefix = "content/" + uni + "/"
@@ -20,20 +21,25 @@ for uni in universities:
     areaFile.close()
 
     for area in areaJson["data"]:
-        buildingsInAreaJson = getBuildingsInArea(uni, area["id"])
-        buildingsFile = open(filePrefix + "buildings/" + area["id"] + ".json", "w+")
+        areaID = unquote(area["id"])
+        buildingsInAreaJson = getBuildingsInArea(uni, areaID)
+        buildingsFile = open(filePrefix + "buildings/" + areaID + ".json", "w+")
         buildingsFile.write(json.dumps(buildingsInAreaJson))
         buildingsFile.close()
 
         for building in buildingsInAreaJson["data"]:
-            roomsInBuildingJson = getRoomsInBuilding(uni, area["id"], building["id"])
-            roomsFile = open(filePrefix + "rooms/" + area["id"] + building["id"] + ".json", "w+")
+            print(building["id"])
+            buildingID = unquote(building["id"])
+            print(buildingID)
+            roomsInBuildingJson = getRoomsInBuilding(uni, areaID, buildingID)
+            roomsFile = open(filePrefix + "rooms/" + areaID + buildingID + ".json", "w+")
             roomsFile.write(json.dumps(roomsInBuildingJson))
             roomsFile.close()
 
             for room in roomsInBuildingJson["data"]:
-                roomDataJson = getRoomData(uni, area["id"], building["id"], room["id"])
-                roomDataFile = open(filePrefix + "roomdata/" + area["id"] + building["id"] + room["id"] + ".json", "w+")
+                roomID = unquote(room["id"])
+                roomDataJson = getRoomData(uni, areaID, buildingID, roomID)
+                roomDataFile = open(filePrefix + "roomdata/" + areaID + buildingID + roomID + ".json", "w+")
                 roomDataFile.write(json.dumps(roomDataJson))
                 roomDataFile.close()
 

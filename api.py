@@ -9,7 +9,7 @@ def getAreas(university):
     allAreas = []
     baseURL = getBaseURL(university)
     r = requests.get(baseURL)
-    html = r.text #content.decode("utf-8")
+    html = r.content.decode("utf-8")
     soup = BeautifulSoup(html, "html.parser")
     sel = soup.find("select")
     for option in sel.find_all("option"):
@@ -33,9 +33,9 @@ def getBuildings(university):
 def getBuildingsInArea(university, areaId):
     buildings = []
     baseURL = getBaseURL(university)
-    url = baseURL + "?area=" + quote(areaId, encoding="latin1")
+    url = baseURL + "?area=" + quote(areaId)
     r = requests.get(url)
-    html = r.text
+    html = r.content.decode("utf-8")
     soup = BeautifulSoup(html, "html.parser")
     buildingSelecter = soup.find("select", attrs={"name": "building"})
     for option in buildingSelecter.find_all("option"):
@@ -50,7 +50,7 @@ def getBuildingsInArea(university, areaId):
 def getRoomsInBuilding(university, areaId, buildingId):
     roomsInBuilding = []
     baseURL = getBaseURL(university)
-    url = baseURL + "?area=" + quote(areaId, encoding="latin1") + "&building=" + quote(buildingId, encoding="latin1")
+    url = baseURL + "?area=" + quote(areaId) + "&building=" + quote(buildingId)
     r = requests.get(url)
     html = r.content.decode("utf-8")
     soup = BeautifulSoup(html, "html.parser")
@@ -73,9 +73,9 @@ def getRoomsInBuilding(university, areaId, buildingId):
 
 def getRoomData(university,areaId, buildingId, roomId):
     baseURL = getBaseURL(university)
-    url = baseURL + "?area=" + areaId + "&building=" + buildingId + "&id=" + roomId
+    url = baseURL + "?area=" + quote(areaId) + "&building=" + quote(buildingId) + "&id=" + quote(roomId)
     r = requests.get(url)
-    html = r.text #content.decode("utf-8")
+    html = r.content.decode("utf-8")
     soup = BeautifulSoup(html, "html.parser")
 
 
