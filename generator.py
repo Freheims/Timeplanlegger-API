@@ -16,30 +16,24 @@ for uni in universities:
             os.makedirs(filePrefix + "roomdata")
 
     areaJson = getAreas(uni)
-    areaFile = open(filePrefix + "areas.json", "w+")
-    areaFile.write(json.dumps(areaJson))
-    areaFile.close()
+    with open(filePrefix + "areas.json", "w+") as areaFile:
+        areaFile.write(json.dumps(areaJson))
 
     for area in areaJson["data"]:
         areaID = unquote(area["id"])
         buildingsInAreaJson = getBuildingsInArea(uni, areaID)
-        buildingsFile = open(filePrefix + "buildings/" + areaID + ".json", "w+")
-        buildingsFile.write(json.dumps(buildingsInAreaJson))
-        buildingsFile.close()
+        with open(filePrefix + "buildings/" + areaID + ".json", "w+") as buildingsFile:
+            buildingsFile.write(json.dumps(buildingsInAreaJson))
 
         for building in buildingsInAreaJson["data"]:
-            print(building["id"])
             buildingID = unquote(building["id"])
-            print(buildingID)
             roomsInBuildingJson = getRoomsInBuilding(uni, areaID, buildingID)
-            roomsFile = open(filePrefix + "rooms/" + areaID + buildingID + ".json", "w+")
-            roomsFile.write(json.dumps(roomsInBuildingJson))
-            roomsFile.close()
+            with open(filePrefix + "rooms/" + areaID + buildingID + ".json", "w+") as roomsFile:
+                roomsFile.write(json.dumps(roomsInBuildingJson))
 
             for room in roomsInBuildingJson["data"]:
                 roomID = unquote(room["id"])
                 roomDataJson = getRoomData(uni, areaID, buildingID, roomID)
-                roomDataFile = open(filePrefix + "roomdata/" + areaID + buildingID + roomID + ".json", "w+")
-                roomDataFile.write(json.dumps(roomDataJson))
-                roomDataFile.close()
+                with open(filePrefix + "roomdata/" + areaID + buildingID + roomID + ".json", "w+") as roomDataFile:
+                    roomDataFile.write(json.dumps(roomDataJson))
 
