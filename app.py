@@ -14,25 +14,25 @@ def index():
 class AreasAPI(Resource):
     def get(self, uni):
         filename = "content/" + uni + "/areas.json"
-        with open(filename, "r") as file:
+        with open(filename.encode("utf-8"), "r") as file:
             return json.load(file)
 
 class BuildingsAPI(Resource):
     def get(self, uni, area):
         filename = "content/" + uni + "/buildings/" + area + ".json"
-        with open(filename, "r") as file:
+        with open(filename.encode("utf-8"), "r") as file:
             return json.load(file)
 
 class RoomsAPI(Resource):
     def get(self, uni, area, building):
         filename = "content/" + uni + "/rooms/" + area + building + ".json"
-        with open(filename, "r") as file:
+        with open(filename.encode("utf-8"), "r") as file:
             return json.load(file)
 
 class RoomDataAPI(Resource):
     def get(self, uni, area, building, room):
         filename = "content/" + uni + "/roomdata/" + area + building + room + ".json"
-        with open(filename, "r") as file:
+        with open(filename.encode("utf-8"), "r") as file:
             return json.load(file)
 
 class ScheduleAPI(Resource):
