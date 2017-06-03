@@ -10,7 +10,7 @@ def getAreas(university):
     baseURL = getBaseURL(university)
     r = requests.get(baseURL)
     html = r.content.decode("utf-8")
-    soup = BeautifulSoup(html, "html.parser")
+    soup = BeautifulSoup(html, "lxml")
     sel = soup.find("select")
     for option in sel.find_all("option"):
         if option.has_attr("value"):
@@ -36,7 +36,7 @@ def getBuildingsInArea(university, areaId):
     url = baseURL + "?area=" + quote(areaId)
     r = requests.get(url)
     html = r.content.decode("utf-8")
-    soup = BeautifulSoup(html, "html.parser")
+    soup = BeautifulSoup(html, "lxml")
     buildingSelecter = soup.find("select", attrs={"name": "building"})
     for option in buildingSelecter.find_all("option"):
         if not option["value"] == "":
@@ -53,7 +53,7 @@ def getRoomsInBuilding(university, areaId, buildingId):
     url = baseURL + "?area=" + quote(areaId) + "&building=" + quote(buildingId)
     r = requests.get(url)
     html = r.content.decode("utf-8")
-    soup = BeautifulSoup(html, "html.parser")
+    soup = BeautifulSoup(html, "lxml")
     roomSelecter = soup.find("select", attrs={"name": "id"})
     for optGroup in roomSelecter.find_all("optgroup"):
         typeId = optGroup["label"].strip()
@@ -76,7 +76,7 @@ def getRoomData(university,areaId, buildingId, roomId):
     url = baseURL + "?area=" + quote(areaId) + "&building=" + quote(buildingId) + "&id=" + quote(roomId)
     r = requests.get(url)
     html = r.content.decode("utf-8")
-    soup = BeautifulSoup(html, "html.parser")
+    soup = BeautifulSoup(html, "lxml")
 
 
     someURL = soup.find("div", id="rominfo").find("a")
@@ -139,7 +139,7 @@ def getWeekScheduleForRoom(university, areaId, buildingId, roomId, weeknumber, y
     url = baseURL + "?area=" + areaId + "&building=" + buildingId + "&id=" + roomId + "&week=" + str(weeknumber) + "&ar=" + str(year)
     r = requests.get(url)
     html = r.text
-    soup = BeautifulSoup(html, "html.parser")
+    soup = BeautifulSoup(html, "lxml")
     calendar = soup.find("div", class_="week-calendar")
     for day in calendar.find_all("ul", class_="week-calendar__list--7"):
         for eventSlot in day.find_all("li", class_="week-calendar__cell"):
