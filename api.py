@@ -162,7 +162,8 @@ def getWeekScheduleForRoom(university, areaId, buildingId, roomId, weeknumber, y
                 timeEnd = str(year) + "-" + dateString + "T" + time[1] + ":00+01"
                 event = {"weekday" : weekday, "teaching-method-name": teachingMethodName, "summary": summary, "dtstart" : timeStart, "dtend" :timeEnd}
                 events.append(event)
-    return events
+    eventsJson = {"name" : "Timetabledata", "events" : events}
+    return eventsJson
 
 def getWeekday(weekdayID):
     wid = int(weekdayID[-1])-1
