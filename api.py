@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from bs4 import BeautifulSoup
 from urllib.parse import quote
+from time import localtime, strftime
 import requests
 import json
 import re
@@ -135,6 +136,7 @@ def getRoomData(university,areaId, buildingId, roomId):
 
 def getWeekScheduleForRoom(university, areaId, buildingId, roomId, weeknumber, year):
     events = []
+    timezone = strftime("%z", localtime())[:3]
     baseURL = getBaseURL(university)
     url = baseURL + "?area=" + areaId + "&building=" + buildingId + "&id=" + roomId + "&week=" + str(weeknumber) + "&ar=" + str(year)
     r = requests.get(url)
@@ -158,8 +160,8 @@ def getWeekScheduleForRoom(university, areaId, buildingId, roomId, weeknumber, y
                     time = timeTag.text.strip()
                 
                 time = time.split("-",1)
-                timeStart = str(year) + "-" + dateString + "T" + time[0] + ":00+01"
-                timeEnd = str(year) + "-" + dateString + "T" + time[1] + ":00+01"
+                timeStart = str(year) + "-" + dateString + "T" + time[0] + ":00" + timezone
+                timeEnd = str(year) + "-" + dateString + "T" + time[1] + ":00" + timezone
                 event = {"weekday" : weekday, "teaching-method-name": teachingMethodName, "summary": summary, "dtstart" : timeStart, "dtend" :timeEnd}
                 events.append(event)
     eventsJson = {"name" : "Timetabledata", "events" : events}
