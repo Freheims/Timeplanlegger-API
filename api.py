@@ -142,17 +142,25 @@ def getWeekScheduleForRoom(university, areaId, buildingId, roomId, weeknumber, y
     soup = BeautifulSoup(html, "lxml")
     calendar = soup.find("div", class_="week-calendar")
     for day in calendar.find_all("ul", class_="week-calendar__list--7"):
+        date = day.find("span", class_="is-visible--lg").text.strip().split(" ",1)[1].split("/", 1)
+        dateString = date[1] + "-" + date[0]
         for eventSlot in day.find_all("li", class_="week-calendar__cell"):
             if len(eventSlot.contents)>0:
                 weekday = getWeekday(eventSlot["id"])
                 content = eventSlot.find("div", class_="week-calendar__event__content")
-                title = content.find("a").text
+                contentList = content.find("a").text.split(":",1)
+                teachingMethodName = contentList[0]
+                summary = contentList[1]
                 timeTag = content.find("time")
                 if timeTag == None: #Some events has the time defined in a weird place...
                     time = eventSlot.find("div", class_="modal__content ").find_all("span")[1].string
                 else:
                     time = timeTag.text.strip()
-                event = {"weekday" : weekday, "title" : title, "time" : time}
+                
+                time = time.split("-",1)
+                timeStart = str(year) + "-" + dateString + "T" + time[0] + ":00+01"
+                timeEnd = str(year) + "-" + dateString + "T" + time[1] + ":00+01"
+                event = {"weekday" : weekday, "teaching-method-name": teachingMethodName, "summary": summary, "dtstart" : timeStart, "dtend" :timeEnd}
                 events.append(event)
     return events
 

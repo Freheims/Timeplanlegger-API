@@ -37,7 +37,7 @@ class RoomDataAPI(Resource):
 
 class ScheduleAPI(Resource):
     def get(self, uni, area, building, room, week, year):
-        return api.getWeekScheduleForRoom(uni, area, building, room, week, year)
+        return getWeekScheduleForRoom(uni, area, building, room, week, year)
 
 webapi.add_resource(AreasAPI, '/api/areas/<string:uni>', endpoint = 'areas')
 webapi.add_resource(BuildingsAPI, '/api/buildings/<string:uni>/<string:area>', endpoint = 'buildings')
