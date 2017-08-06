@@ -112,6 +112,75 @@ GET http://tp.freheims.xyz/api/rooms/uio/AH/AHB1/AHB102.072
 }
 		</code>
 		</pre>
+		<b>Schedule for room</b></br>
+		<p>/api/schedule/&lt;university&gt;/&lt;areaID&gt;/&lt;buildingID&gt;/&lt;roomID&gt;/&lt;weeknumber&gt;/&lt;year&gt;</p></br>
+		<pre>
+		<code>
+GET http://tp.freheims.xyz/api/schedule/uio/AH/AHB1/AHB102.072/33/2017
+{
+    "events":[
+        {
+            "dtend":"2017-08-14T09:00:00+02",
+            "summary":" Ahus Hema/onko Morgenm\u00c3\u00b8te mandag ",
+            "dtstart":"2017-08-14T08:30:00+02",
+            "teaching-method-name":"E.E. Westgaard",
+            "weekday":"monday"
+        },
+        {
+            "dtend":"2017-08-15T08:45:00+02",
+            "summary":" Ahus Hema/onko Morgenm\u00c3\u00b8te tirsdag",
+            "dtstart":"2017-08-15T08:00:00+02",
+            "teaching-method-name":"E.E. Westgaard",
+            "weekday":"tuesday"
+        },
+        {
+            "dtend":"2017-08-16T09:00:00+02",
+            "summary":" Ahus Hema/onko Morgenm\u00c3\u00b8te onsdag",
+            "dtstart":"2017-08-16T08:30:00+02",
+            "teaching-method-name":"E.E. Westgaard",
+            "weekday":"wednesday"
+        },
+        {
+            "dtend":"2017-08-16T12:30:00+02",
+            "summary":" Ahus Hema/onko Lunchm\u00c3\u00b8te onsdager",
+            "dtstart":"2017-08-16T11:45:00+02",
+            "teaching-method-name":"E.E. Westgaard",
+            "weekday":"wednesday"
+        },
+        {
+            "dtend":"2017-08-17T08:45:00+02",
+            "summary":" Ahus Hema/onko Morgenm\u00c3\u00b8te torsdag",
+            "dtstart":"2017-08-17T08:00:00+02",
+            "teaching-method-name":"E.E. Westgaard",
+            "weekday":"thursday"
+        },
+        {
+            "dtend":"2017-08-17T11:00:00+02",
+            "summary":" Ahus ONKO samarbeidsm\u00c3\u00b8te",
+            "dtstart":"2017-08-17T10:00:00+02",
+            "teaching-method-name":"E.E. Westgaard",
+            "weekday":"thursday"
+        },
+        {
+            "dtend":"2017-08-17T12:30:00+02",
+            "summary":" Ahus Hema/onko Lunchm\u00c3\u00b8te torsdager",
+            "dtstart":"2017-08-17T11:45:00+02",
+            "teaching-method-name":"E.E. Westgaard",
+            "weekday":"thursday"
+        },
+        {
+            "dtend":"2017-08-18T16:00:00+02",
+            "summary":" Ahus Onkologi, Unn-Cathrin E Buvarp",
+            "dtstart":"2017-08-18T09:00:00+02",
+            "teaching-method-name":"V.S. Bj\u00c3\u00b8rklund",
+            "weekday":"friday"
+        }
+    ],
+    "name":"Timetabledata"
+}
+	</code>
+		</pre>
+
 
 	</body>
 </html>
