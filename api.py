@@ -54,7 +54,7 @@ def getWeekScheduleForRoom(university, areaId, buildingId, roomId, weeknumber, y
     events = json.loads(soup.find("script", attrs={"id": "data-js"}).text)
     for event in events:
         del event["room"]
-    return json.dumps(events)
+    return events
 
 def getBaseURL(university):
     if university == "uio":
