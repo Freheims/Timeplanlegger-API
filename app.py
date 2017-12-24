@@ -29,12 +29,6 @@ class RoomsAPI(Resource):
         with open(filename.encode("utf-8"), "r") as file:
             return json.load(file)
 
-class RoomDataAPI(Resource):
-    def get(self, uni, area, building, room):
-        filename = "content/" + uni + "/roomdata/" + area + building + room + ".json"
-        with open(filename.encode("utf-8"), "r") as file:
-            return json.load(file)
-
 class ScheduleAPI(Resource):
     def get(self, uni, area, building, room, week, year):
         return getWeekScheduleForRoom(uni, area, building, room, week, year)
@@ -42,7 +36,6 @@ class ScheduleAPI(Resource):
 webapi.add_resource(AreasAPI, '/api/areas/<string:uni>', endpoint = 'areas')
 webapi.add_resource(BuildingsAPI, '/api/buildings/<string:uni>/<string:area>', endpoint = 'buildings')
 webapi.add_resource(RoomsAPI, '/api/rooms/<string:uni>/<string:area>/<string:building>', endpoint = 'rooms')
-webapi.add_resource(RoomDataAPI, '/api/rooms/<string:uni>/<string:area>/<string:building>/<string:room>', endpoint = 'roomdata')
 webapi.add_resource(ScheduleAPI, '/api/schedule/<string:uni>/<string:area>/<string:building>/<string:room>/<int:week>/<int:year>', endpoint = 'schedule')
 
 

@@ -11,25 +11,21 @@
 		<pre>
 		<code>
 GET http://tp.freheims.xyz/api/areas/uio
-			
-{
-    "name": "Areas",
-    "data": [
-        {
-            "id": "AH",
-            "name": "Ahus"
-        },
-        {
-            "id": "AS",
-            "name": "Aker sykehus"
-        },
-        {
-            "id": "BL",
-            "name": "Blindern"
-        },
-		...
-    ]
-}
+[
+    {
+        "id": "AH",
+        "name": "Ahus"
+    },
+    {
+        "id": "AS",
+        "name": "Aker sykehus"
+    },
+    {
+        "id": "BL",
+        "name": "Blindern"
+    },
+	...
+]
 		</code>
 		</pre>
 		<b>Buildings in area</b></br>
@@ -37,24 +33,21 @@ GET http://tp.freheims.xyz/api/areas/uio
 		<pre>
 		<code>
 GET http://tp.freheims.xyz/api/buildings/uio/AH
-{
-    "name": "Buildings",
-    "data": [
-        {
-            "id": "AHB1",
-            "name": "Ahus B1"
-        },
-        {
-            "id": "AHB2",
-            "name": "Ahus B2"
-        },
-        {
-            "id": "AHB3",
-            "name": "Ahus B3"
-        },
-		...
-    ]
-}
+[
+    {
+        "id": "AHB1",
+        "name": "Ahus B1"
+    },
+    {
+        "id": "AHB2",
+        "name": "Ahus B2"
+    },
+    {
+        "id": "AHB3",
+        "name": "Ahus B3"
+    },
+	...
+]
 		</code>
 		</pre>
 		<b>Rooms in building</b></br>
@@ -62,54 +55,26 @@ GET http://tp.freheims.xyz/api/buildings/uio/AH
 		<pre>
 		<code>
 GET http://tp.freheims.xyz/api/rooms/uio/AH/AHB1
-{
-    "name": "Rooms",
-    "data": [
-        {
-            "id": "AHB102.072",
-            "size": "14",
-            "name": "Grupperom B102.072",
-            "typeid": "Seminarrom"
-        },
-        {
-            "id": "AHB104.004",
-            "size": "30",
-            "name": "Grupperom B104.004",
-            "typeid": "Seminarrom"
-        },
-        {
-            "id": "AHB104.048",
-            "size": "1",
-            "name": "Ekspedisjon patologisk-anatomisk avdeling",
-            "typeid": "Oppmøtested"
-        }
-    ]
-}
-		</code>
-		</pre>
-		<b>Information about room</b></br>
-		<p>/api/rooms/&lt;university&gt;/&lt;areaID&gt;/&lt;buildingID&gt;/&lt;roomID&gt;</p></br>
-		<pre>
-		<code>
-GET http://tp.freheims.xyz/api/rooms/uio/AH/AHB1/AHB102.072
-{
-    "name": "Roomdata",
-    "data": {
-        "buildingurl": "https://goo.gl/maps/oU7Y4",
-        "roomurl": "null",
-        "roomacronym": "Grup",
-        "roomimg_url": "null",
-        "buildingacronym": "Ahus"
+[
+    {
+        "id": "AHB102.072",
+        "size": "14",
+        "name": "Grupperom B102.072",
+        "typeid": "Seminarrom"
     },
-    "equipment": [
-        "Fast PC",
-        "Kritt-tavle",
-        "Overhead-projektor",
-        "Videoprojektor",
-        "Whiteboard",
-        "Bruk må avklares med romeier før reservasjon. Kontakt rombooking (rombooking@ahus.uio.no)"
-    ]
-}
+    {
+        "id": "AHB104.004",
+        "size": "30",
+        "name": "Grupperom B104.004",
+        "typeid": "Seminarrom"
+    },
+    {
+        "id": "AHB104.048",
+        "size": "1",
+        "name": "Ekspedisjon patologisk-anatomisk avdeling",
+        "typeid": "Oppmøtested"
+    }
+]
 		</code>
 		</pre>
 		<b>Schedule for room</b></br>
@@ -117,67 +82,120 @@ GET http://tp.freheims.xyz/api/rooms/uio/AH/AHB1/AHB102.072
 		<pre>
 		<code>
 GET http://tp.freheims.xyz/api/schedule/uio/AH/AHB1/AHB102.072/33/2017
-{
-    "events":[
-        {
-            "dtend":"2017-08-14T09:00:00+02",
-            "summary":" Ahus Hema/onko Morgenm\u00c3\u00b8te mandag ",
-            "dtstart":"2017-08-14T08:30:00+02",
-            "teaching-method-name":"E.E. Westgaard",
-            "weekday":"monday"
-        },
-        {
-            "dtend":"2017-08-15T08:45:00+02",
-            "summary":" Ahus Hema/onko Morgenm\u00c3\u00b8te tirsdag",
-            "dtstart":"2017-08-15T08:00:00+02",
-            "teaching-method-name":"E.E. Westgaard",
-            "weekday":"tuesday"
-        },
-        {
-            "dtend":"2017-08-16T09:00:00+02",
-            "summary":" Ahus Hema/onko Morgenm\u00c3\u00b8te onsdag",
-            "dtstart":"2017-08-16T08:30:00+02",
-            "teaching-method-name":"E.E. Westgaard",
-            "weekday":"wednesday"
-        },
-        {
-            "dtend":"2017-08-16T12:30:00+02",
-            "summary":" Ahus Hema/onko Lunchm\u00c3\u00b8te onsdager",
-            "dtstart":"2017-08-16T11:45:00+02",
-            "teaching-method-name":"E.E. Westgaard",
-            "weekday":"wednesday"
-        },
-        {
-            "dtend":"2017-08-17T08:45:00+02",
-            "summary":" Ahus Hema/onko Morgenm\u00c3\u00b8te torsdag",
-            "dtstart":"2017-08-17T08:00:00+02",
-            "teaching-method-name":"E.E. Westgaard",
-            "weekday":"thursday"
-        },
-        {
-            "dtend":"2017-08-17T11:00:00+02",
-            "summary":" Ahus ONKO samarbeidsm\u00c3\u00b8te",
-            "dtstart":"2017-08-17T10:00:00+02",
-            "teaching-method-name":"E.E. Westgaard",
-            "weekday":"thursday"
-        },
-        {
-            "dtend":"2017-08-17T12:30:00+02",
-            "summary":" Ahus Hema/onko Lunchm\u00c3\u00b8te torsdager",
-            "dtstart":"2017-08-17T11:45:00+02",
-            "teaching-method-name":"E.E. Westgaard",
-            "weekday":"thursday"
-        },
-        {
-            "dtend":"2017-08-18T16:00:00+02",
-            "summary":" Ahus Onkologi, Unn-Cathrin E Buvarp",
-            "dtstart":"2017-08-18T09:00:00+02",
-            "teaching-method-name":"V.S. Bj\u00c3\u00b8rklund",
-            "weekday":"friday"
-        }
-    ],
-    "name":"Timetabledata"
-}
+[
+    {
+        "semesterid": "17h",
+        "courseid": "BOOKING",
+        "actid": "17h-ELLENW",
+        "id": "17h-ELLENW-27",
+        "weeknr": 33,
+        "dtstart": "2017-08-14T08:30:00+02",
+        "dtend": "2017-08-14T09:00:00+02",
+        "teaching-method": "-",
+        "teaching-method-name": "Booking",
+        "teaching-title": "Booking ELLENW",
+        "summary": "Ahus Hema/onko Morgenm\u00f8te mandag ",
+        "status": "active"
+    },
+    {
+        "semesterid": "17h",
+        "courseid": "BOOKING",
+        "actid": "17h-ELLENW",
+        "id": "17h-ELLENW-30",
+        "weeknr": 33,
+        "dtstart": "2017-08-15T08:00:00+02",
+        "dtend": "2017-08-15T08:45:00+02",
+        "teaching-method": "-",
+        "teaching-method-name": "Booking",
+        "teaching-title": "Booking ELLENW",
+        "summary": "Ahus Hema/onko Morgenm\u00f8te tirsdag",
+        "status": "active"
+    },
+    {
+        "semesterid": "17h",
+        "courseid": "BOOKING",
+        "actid": "17h-ELLENW",
+        "id": "17h-ELLENW-28",
+        "weeknr": 33,
+        "dtstart": "2017-08-16T08:30:00+02",
+        "dtend": "2017-08-16T09:00:00+02",
+        "teaching-method": "-",
+        "teaching-method-name": "Booking",
+        "teaching-title": "Booking ELLENW",
+        "summary": "Ahus Hema/onko Morgenm\u00f8te onsdag",
+        "status": "active"
+    },
+    {
+        "semesterid": "17h",
+        "courseid": "BOOKING",
+        "actid": "17h-ELLENW",
+        "id": "17h-ELLENW-25",
+        "weeknr": 33,
+        "dtstart": "2017-08-16T11:45:00+02",
+        "dtend": "2017-08-16T12:30:00+02",
+        "teaching-method": "-",
+        "teaching-method-name": "Booking",
+        "teaching-title": "Booking ELLENW",
+        "summary": "Ahus Hema/onko Lunchm\u00f8te onsdager",
+        "status": "active"
+    },
+    {
+        "semesterid": "17h",
+        "courseid": "BOOKING",
+        "actid": "17h-ELLENW",
+        "id": "17h-ELLENW-31",
+        "weeknr": 33,
+        "dtstart": "2017-08-17T08:00:00+02",
+        "dtend": "2017-08-17T08:45:00+02",
+        "teaching-method": "-",
+        "teaching-method-name": "Booking",
+        "teaching-title": "Booking ELLENW",
+        "summary": "Ahus Hema/onko Morgenm\u00f8te torsdag",
+        "status": "active"
+    },
+    {
+        "semesterid": "17h",
+        "courseid": "BOOKING",
+        "actid": "17h-ELLENW",
+        "id": "17h-ELLENW-52",
+        "weeknr": 33,
+        "dtstart": "2017-08-17T10:00:00+02",
+        "dtend": "2017-08-17T11:00:00+02",
+        "teaching-method": "-",
+        "teaching-method-name": "Booking",
+        "teaching-title": "Booking ELLENW",
+        "summary": "Ahus ONKO samarbeidsm\u00f8te",
+        "status": "active"
+    },
+    {
+        "semesterid": "17h",
+        "courseid": "BOOKING",
+        "actid": "17h-ELLENW",
+        "id": "17h-ELLENW-26",
+        "weeknr": 33,
+        "dtstart": "2017-08-17T11:45:00+02",
+        "dtend": "2017-08-17T12:30:00+02",
+        "teaching-method": "-",
+        "teaching-method-name": "Booking",
+        "teaching-title": "Booking ELLENW",
+        "summary": "Ahus Hema/onko Lunchm\u00f8te torsdager",
+        "status": "active"
+    },
+    {
+        "semesterid": "17h",
+        "courseid": "BOOKING",
+        "actid": "17h-VIBEKESB",
+        "id": "17h-VIBEKESB-144",
+        "weeknr": 33,
+        "dtstart": "2017-08-18T09:00:00+02",
+        "dtend": "2017-08-18T16:00:00+02",
+        "teaching-method": "-",
+        "teaching-method-name": "Booking",
+        "teaching-title": "Booking VIBEKESB",
+        "summary": "Ahus Onkologi, Unn-Cathrin E Buvarp",
+        "status": "active"
+    }
+]
 	</code>
 		</pre>
 
