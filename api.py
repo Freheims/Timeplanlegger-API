@@ -26,7 +26,7 @@ def getBuildings(university):
 def getBuildingsInArea(university, areaId):
     buildings = []
     baseURL = getBaseURL(university)
-    url = baseURL + "&area=" + quote(areaId)
+    url = baseURL + "&area[]=" + quote(areaId)
     r = requests.get(url)
     html = r.content.decode("utf-8")
     soup = BeautifulSoup(html, "lxml")
@@ -36,7 +36,7 @@ def getBuildingsInArea(university, areaId):
 def getRoomsInBuilding(university, areaId, buildingId):
     roomsInBuilding = []
     baseURL = getBaseURL(university)
-    url = baseURL + "&area=" + quote(areaId) + "&building=" + quote(buildingId)
+    url = baseURL + "&area[]=" + quote(areaId) + "&building[]=" + quote(buildingId)
     r = requests.get(url)
     html = r.content.decode("utf-8")
     soup = BeautifulSoup(html, "lxml")
@@ -47,7 +47,7 @@ def getWeekScheduleForRoom(university, areaId, buildingId, roomId, weeknumber, y
     events = []
     timezone = strftime("%z", localtime())[:3]
     baseURL = getBaseURL(university)
-    url = baseURL + "&area=" + areaId + "&building=" + buildingId + "&id=" + roomId + "&week=" + str(weeknumber) + "&ar=" + str(year)
+    url = baseURL + "&area[]=" + areaId + "&building[]=" + buildingId + "&id[]=" + roomId + "&week=" + str(weeknumber) + "&ar=" + str(year)
     r = requests.get(url)
     html = r.text
     soup = BeautifulSoup(html, "lxml")

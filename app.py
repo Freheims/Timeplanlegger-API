@@ -1,6 +1,6 @@
 #!tpenv/bin/python3
 from flask import Flask, jsonify, render_template
-from flask.ext.restful import Api, Resource
+from flask_restful import Api, Resource
 from api import *
 import json
 
@@ -10,6 +10,12 @@ webapi = Api(app)
 @app.route('/')
 def index():
     return render_template('index.html')
+
+class UniAPI(Resource):
+    def get(self, uni):
+        filename = "content/" + uni + ".json"
+        with open(filename.encode("utf-8"), "r") as file:
+            return json.load(file)
 
 class AreasAPI(Resource):
     def get(self, uni):
@@ -33,6 +39,7 @@ class ScheduleAPI(Resource):
     def get(self, uni, area, building, room, week, year):
         return getWeekScheduleForRoom(uni, area, building, room, week, year)
 
+webapi.add_resource(UniAPI, '/api/uni/<string:uni>', endpoint = 'uni')
 webapi.add_resource(AreasAPI, '/api/areas/<string:uni>', endpoint = 'areas')
 webapi.add_resource(BuildingsAPI, '/api/buildings/<string:uni>/<string:area>', endpoint = 'buildings')
 webapi.add_resource(RoomsAPI, '/api/rooms/<string:uni>/<string:area>/<string:building>', endpoint = 'rooms')

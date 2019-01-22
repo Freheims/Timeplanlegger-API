@@ -2,30 +2,31 @@ import os
 from api import *
 from urllib.parse import unquote
 
-universities = ["uib", "uio", "uit", "ntnu"]
+universities = ["uib", "uio", "uit", "ntnu", "oslomet"]
 
 for uni in universities:
-    filePrefix = "content/" + uni + "/"
+    filePrefix = "content/"
     if not os.path.exists(filePrefix):
             os.makedirs(filePrefix)
-    if not os.path.exists(filePrefix + "buildings"):
-            os.makedirs(filePrefix + "buildings")
-    if not os.path.exists(filePrefix + "rooms"):
-            os.makedirs(filePrefix + "rooms")
 
     areaJson = getAreas(uni)
-    with open(filePrefix + "areas.json", "w+") as areaFile:
-        areaFile.write(json.dumps(areaJson))
 
-    for area in areaJson:
+    for areaIndex in range(len(areaJson)):
+        area = areaJson[areaIndex]
         areaID = unquote(area["id"])
         buildingsInAreaJson = getBuildingsInArea(uni, areaID)
-        with open(filePrefix + "buildings/" + areaID + ".json", "w+") as buildingsFile:
-            buildingsFile.write(json.dumps(buildingsInAreaJson))
+        #with open(filePrefix + "buildings/" + areaID + ".json", "w+") as buildingsFile:
+        #    buildingsFile.write(json.dumps(buildingsInAreaJson))
 
-        for building in buildingsInAreaJson:
+        for buildingIndex in range(len(buildingsInAreaJson)):
+            building = buildingsInAreaJson[buildingIndex]
             buildingID = unquote(building["id"])
             roomsInBuildingJson = getRoomsInBuilding(uni, areaID, buildingID)
-            with open(filePrefix + "rooms/" + areaID + buildingID + ".json", "w+") as roomsFile:
-                roomsFile.write(json.dumps(roomsInBuildingJson))
+            buildingsInAreaJson[buildingIndex]["rooms"] = roomsInBuildingJson
+        #    with open(filePrefix + "rooms/" + areaID + buildingID + ".json", "w+") as roomsFile:
+        #        roomsFile.write(json.dumps(roomsInBuildingJson))
 
+        areaJson[areaIndex]["buildings"] = buildingsInAreaJson
+
+        with open(filePrefix + uni +".json", "w+") as uniFile:
+            uniFile.write(json.dumps(areaJson))
